@@ -4,6 +4,7 @@ const http = require('http');
 const bodyParser = require('body-parser');
 const serveStatic = require('serve-static');
 const fs = require('fs');
+const crypto = require('crypto');
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(express.static(path.join(__dirname, 'src')));
 app.use(serveStatic(__dirname, {'index': ['src/index.html']}));
 
 var content = {};
+var token = '';
 
 fs.readFile('src/script.js', 'utf8', function (err,data) {
   if (err) {
@@ -21,7 +23,14 @@ fs.readFile('src/script.js', 'utf8', function (err,data) {
   content = data;
 });
 
-app.get('/', (req, res) => {
+crypto.randomBytes(48, function(err, buffer) {
+    token = buffer.toString('hex');
+    console.log(token);
+});
+
+token = '2a0cf8554f2fe9bde39fe86a3bcd32fd7a670ee04a57f55b2315912376860337b36ecdf12862941a876baf6977a58b46';
+
+app.get('/' + token, (req, res) => {
     res.send(content);
 });
 
