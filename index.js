@@ -34,6 +34,10 @@ app.get('/' + token, (req, res) => {
     res.send(content);
 });
 
+app.get('/', (req, res) => {
+    // res.sendFile(path.join(__dirname, 'src/index.html'));
+});
+
 const port = process.env.PORT || '3002';
 app.set('port', port);
 
